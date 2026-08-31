@@ -8,8 +8,6 @@ async def fifo_dump(dut, logger):
   logger.log("Hello")
 
 async def fifo_write(dut, data):
-  while not dut.wr_rdy.value:
-    await RisingEdge(dut.clk)
   dut.data_in.value = data
   dut.wr.value = 1
   
@@ -31,7 +29,11 @@ async def fifo_tb(dut):
   dut.wr.value = 0
   
   await Timer(40, unit="ns")
-  
+  await RisingEdge(dut.clk)
+
+  dut.reset.value = 0
+
   for data in testData:
+    logger.info(data)
     await fifo_write(dut, data)
   
