@@ -34,8 +34,6 @@ module fifo #(
     end    
   end
 
-  assign 
-
   assign empty = size_count == 0 ? 1 : 0;
   assign full = size_count == WIDTH ? 1 : 0;
 
@@ -47,13 +45,29 @@ module fifo #(
       for (i = 0; i < DEPTH-1; i=i+1) begin
         mem[i] <= 0;
       end    
+      rd_idx <= 0;
+      wr_idx <= 0;
+      size_count <= 0;
     end 
     else if(posedge clk) begin
       if (wr_valid) begin
-        
+        mem[rd_idx] <= data_in;
+        wr_idx <= (wr_idx + 1) == WIDTH ? 0 : (wr_idx + 1);
       end
-      if (rd_valid) begin
 
+      if (rd_valid) begin
+        data_out <= mem[rd_idx];
+        rd_idx <= (rd_idx + 1) == WIDTH ? 0 : (rd_idx + 1);
+      end
+
+      if (rd_valid and wr_valid) begin
+        size_count <= size_count;
+      end
+      else if (rd_valid) begin
+        size_count <= size_count - 1;
+      end
+      else if (wr_valid) begin
+        size_count <= size_count + 1;
       end
     end
   end
