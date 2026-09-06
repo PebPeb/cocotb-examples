@@ -2,7 +2,7 @@
 SIM ?= verilator
 
 PYTHON_FILES = mux_tb.py
-VERILOG_SOURCES = mux.v
+VERILOG_SOURCES = ../rtl/mux/mux.v
 
 TEST ?= mux_tb
 

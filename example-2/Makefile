@@ -3,7 +3,7 @@ SIM ?= verilator
 EXTRA_ARGS += --trace --trace-structs
 
 PYTHON_FILES = fifo_tb.py
-VERILOG_SOURCES = fifo.v
+VERILOG_SOURCES = ../rtl/fifo/fifo.v
 
 TEST ?= fifo_tb
 
