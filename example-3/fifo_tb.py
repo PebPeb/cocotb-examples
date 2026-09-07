@@ -36,14 +36,21 @@ class fifo_sequence(uvm_sequence):
       transaction = write_seq_item(value)
       await self.start_item(transaction)
       await self.finish_item(transaction)
-      
+    
+    for i in range(2):
+      transaction = idle_seq_item()
+      await self.start_item(transaction)
+      await self.finish_item(transaction)
+    
     for i in range(len(data)):
       transaction = read_seq_item()
       await self.start_item(transaction)
       await self.finish_item(transaction)
-    transaction = idle_seq_item()
-    await self.start_item(transaction)
-    await self.finish_item(transaction)
+      
+    for i in range(2):
+      transaction = idle_seq_item()
+      await self.start_item(transaction)
+      await self.finish_item(transaction)
     
 class fifo_driver(uvm_driver):
   def __init__(self, name, parent):
